@@ -14,9 +14,12 @@ jobs:
         with:
           buildozer_version: master
           command: buildozer android debug
-          
+
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: Apple-Doctor-APK
           path: bin/*.apk
+          concurrency:
+  group: build-apk-${{ github.ref }}
+  cancel-in-progress: true
