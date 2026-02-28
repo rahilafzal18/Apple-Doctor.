@@ -1,0 +1,27 @@
+name: Build APK
+
+concurrency:
+  group: build-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build with Buildozer
+        uses: Enas-Anwar/buildozer-action@v1
+        with:
+          command: buildozer android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: Apple-Doctor-APK
+          path: bin/*.apk
